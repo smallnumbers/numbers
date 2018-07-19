@@ -40,7 +40,6 @@ for n in range(k, N):
     size = Int('size');
     h = z3.maximize(size);
     
-    print "sz(%d,%d): " % (k,n);
-    print "check: ", z3.check();
-    print "upper: ", z3.upper(h);
-    #print "model: ", z3.model();
+    c = z3.check();
+    print "sz(%d,%d)=%s" % (k,n,z3.upper(h));
+    sys.stdout.flush();
