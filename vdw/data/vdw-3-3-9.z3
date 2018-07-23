@@ -1,3 +1,4 @@
+(set-option :produce-proofs true)
 (declare-const x000 Int)
 (declare-const x001 Int)
 (declare-const x002 Int)
@@ -39,3 +40,5 @@
 (assert (<= 1 (+ x008 x006 x004)))
 (assert (<= 1 (+ x008 x005 x002)))
 (assert (<= 1 (+ x008 x004 x000)))
+(check-sat)
+(get-proof)
