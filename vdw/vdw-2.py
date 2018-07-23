@@ -30,6 +30,8 @@ while True:
 	# Add variables
 	variable = variable_str(i);
 	variables += "(declare-const %s Int)\n" % variable;
+	constraints += "(assert (>= 1 %s))\n" % variable;
+	constraints += "(assert (<= 0 %s))\n" % variable;
 
 	d = 1;
 	while i - (k1 - 1) * d >= 0:
