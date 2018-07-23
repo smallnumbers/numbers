@@ -3,42 +3,170 @@
 #include <string.h>
 #include <time.h>
 
-static int propagate(int t, int *k, int n, unsigned char *coloring)
+static void print_coloring(int n, unsigned char *coloring)
 {
-	int c, i, d, j;
+	int i;
+	for (i = 0; i < n; i++) {
+		printf("%d", coloring[i]);
+
+		if (((i + 1) % 50) == 0)
+			printf("\n");
+		else if (((i + 1) % 10) == 0)
+			printf(" ");
+	}
+	printf("\n");
+}
+
+inline unsigned int bit(int c)
+{
+	return 1U << (c - 1);
+}
+
+inline unsigned int domain_remove(unsigned int *domains, int pos, int c)
+{
+	domains[pos] &= ~bit(c);
+	return domains[pos];
+}
+
+inline int domain_allows(unsigned int *domains, int pos, int c)
+{
+	return domains[pos] & bit(c);
+}
+
+static void print_domains(int n, int t, unsigned int *domains)
+{
+	int c, i;
+	for (c = 1; c <= t; c++) {
+		for (i = 0; i < n; i++) {
+			if (domain_allows(domains, i, c))
+				printf("1");
+			else
+				printf("0");
+
+			if (((i + 1) % 10) == 0)
+				printf(" ");
+		}
+		printf("\n");
+	}
+}
+
+inline void assign_color(unsigned char *coloring, unsigned int *domains,
+			 int pos, int c)
+{
+	coloring[pos] = c;
+	domains[pos] = bit(c);
+}
+
+static int domain_singleton(unsigned char *coloring, unsigned int *domains, int pos, int t)
+{
+	int c;
+
+	if (coloring[pos])
+		return 0;
+
+	if (__builtin_popcount(domains[pos]) != 1)
+		return 0;
 
 	for (c = 1; c <= t; c++) {
-		int ck = k[c - 1];
+		if (domain_allows(domains, pos, c)) {
+			assign_color(coloring, domains, pos, c);
+			return c;
+		}
+	}
 
-		for (i = 0; i < n; i++) {
-			for (d = 1; i + d * (ck - 1) < n; d++) {
-				int monochromatic = 1;
-				for (j = 0; j < ck && monochromatic; j++)
-					monochromatic = (coloring[i + j * d] == c);
-				if (monochromatic)
-					return 0;
+	printf("BUG: we thought we were a singleton, but we didn't find the single color!\n");
+	exit(1);
+}
+
+static int propagate(int t, int *k, int n, unsigned char *coloring,
+		     unsigned int *domains, int pos, int c)
+{
+	int d, j, jstart;
+	int ck = k[c - 1];
+
+	for (jstart = 0; jstart < ck; jstart++) {
+		for (d = 1; d <= n / (ck - 1); d++) {
+			int monochromatic = 1;
+			int last_uncolored = -1;
+			int singleton_color;
+
+			if (pos - jstart * d < 0 ||
+			    pos + (ck - 1 - jstart) * d >= n)
+				continue;
+
+			for (j = 0; monochromatic && j < ck; j++) {
+				int p = pos + (j - jstart) * d;
+
+				if (!coloring[p]) {
+					/* if uncolored, leave a pointer */
+					if (last_uncolored < 0)
+						last_uncolored = p;
+					else
+						monochromatic = 0;
+				} else {
+					monochromatic = (coloring[p] == c);
+				}
 			}
+
+			if (!monochromatic)
+				continue;
+
+			/* 
+			 * if everything is colored and we are monochromatic,
+			 * then we have violated the coloring!
+			 */
+			if (last_uncolored < 0)
+				return 0;
+
+			/*
+			 * if we remove the last viable color at a position,
+			 * then we have violated the coloring!
+			 */
+			if (!domain_remove(domains, last_uncolored, c))
+				return 0;
+
+			/*
+			 * if there is only one color remaining, assign that color
+			 * and propagate.
+			 */
+			singleton_color = domain_singleton(coloring, domains, last_uncolored, t);
+
+			if (singleton_color &&
+			    !propagate(t, k, n, coloring, domains, last_uncolored, singleton_color))
+				return 0;
 		}
 	}
 
 	return 1;
 }
 
-static int position_to_change(int t, int *k, int n, unsigned char *coloring)
+static int position_to_change(int t, int *k, int n, unsigned char *coloring, unsigned int *domains)
 {
 	int i = 0;
+	int i_to_pick = -1;
+	int min_colors_available = t + 1;
+
 	while (i < n) {
-		if (coloring[i] == 0)
-			return i;
+		if (coloring[i] == 0) {
+			int colors_available = __builtin_popcount(domains[i]);
+
+			if (colors_available < min_colors_available) {
+				i_to_pick = i;
+				min_colors_available = colors_available;
+			}
+		}
+
 		i++;
 	}
 
-	return -1;
+	return i_to_pick;
 }
 
-static unsigned char *vdw_stack(int t, int *k, int n, unsigned char *stack, int h)
+static unsigned char *vdw_stack(int t, int *k, int n, unsigned char *stack,
+				unsigned int *domains, int h)
 {
 	unsigned char *next;
+	unsigned int *new_domains;
 	int c = 0;
 	int i = 0;
 
@@ -48,20 +176,30 @@ static unsigned char *vdw_stack(int t, int *k, int n, unsigned char *stack, int 
 	}
 
 	next = stack + n;
+	new_domains = domains + n;
 
-	i = position_to_change(t, k, n, stack);
+	i = position_to_change(t, k, n, stack, domains);
+	
+	/* this is where we return a solution! */
 	if (i < 0)
 		return stack;
 
 	for (c = 1; c <= t; c++) {
 		unsigned char *result;
-
-		memcpy(next, stack, n);
-		next[i] = c;
-		if (!propagate(t, k, n, next))
+		if (!domain_allows(domains, i, c))
 			continue;
 
-		if (result = vdw_stack(t, k, n, next, h + 1))
+		memcpy(next, stack, n);
+		memcpy(new_domains, domains, n * sizeof(int));
+
+		assign_color(next, new_domains, i, c);
+		
+		if (!propagate(t, k, n, next, new_domains, i, c))
+			continue;
+
+		result = vdw_stack(t, k, n, next, new_domains, h + 1);
+
+		if (result)
 			return result;
 	}
 
@@ -70,10 +208,19 @@ static unsigned char *vdw_stack(int t, int *k, int n, unsigned char *stack, int 
 
 static unsigned char *vdw(int t, int *k, int n)
 {
+	int i, c;
 	int *result = NULL;
 	unsigned char *stack = calloc(n * (n + 1), 1);
+	unsigned int *domains = calloc(n * (n + 1), sizeof(int));
+	int mask = 0;
 
-	return vdw_stack(t, k, n, stack, 0);
+	for (c = 1; c <= t; c++)
+		mask |= bit(c);
+
+	for (i = 0; i < n * (n + 1); i++)
+		domains[i] = mask;
+
+	return vdw_stack(t, k, n, stack, domains, 0);
 }
 
 int main(int argc, const char **argv)
@@ -113,11 +260,8 @@ int main(int argc, const char **argv)
 		printf("failed to get start time\n");
 
 	if (result = vdw(t, k, n)) {
-		printf("sat: ");
-		for (i = 0; i < n; i++) {
-			printf("%x", result[i]);
-		}
-		printf("\n");
+		printf("sat:\n");
+		print_coloring(n, result);	
 	} else {
 		printf("unsat\n");
 	}
