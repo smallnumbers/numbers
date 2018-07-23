@@ -56,5 +56,5 @@ if check == sat:
     print z3.model();
 else:
     solve_file = open("data/disc-C%d-n%d.z3" % (C,N), "w");
-    solve_file.write("(set-option param:produce-proofs true)\n" + variables + constraints + "(check-sat)\n(get-proof)\n");
+    solve_file.write("(set-option :produce-proofs true)\n" + variables + constraints + "(check-sat)\n(get-proof)\n");
     solve_file.close();

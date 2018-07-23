@@ -1,0 +1,327 @@
+sat
+(model 
+  (define-fun p10d1t4 () Bool
+    false)
+  (define-fun p6d3t0 () Bool
+    false)
+  (define-fun p5d5t3 () Bool
+    true)
+  (define-fun p0d2t2 () Bool
+    true)
+  (define-fun p4d4t1 () Bool
+    true)
+  (define-fun p4d1t1 () Bool
+    false)
+  (define-fun p7d1t4 () Bool
+    false)
+  (define-fun p5d5t0 () Bool
+    false)
+  (define-fun p6d2t0 () Bool
+    false)
+  (define-fun p0d5t0 () Bool
+    false)
+  (define-fun p0d1t2 () Bool
+    true)
+  (define-fun p8d2t1 () Bool
+    false)
+  (define-fun p4d2t4 () Bool
+    false)
+  (define-fun xm3 () Bool
+    false)
+  (define-fun p2d2t1 () Bool
+    false)
+  (define-fun p0d4t3 () Bool
+    false)
+  (define-fun p3d3t4 () Bool
+    false)
+  (define-fun p1d1t0 () Bool
+    false)
+  (define-fun xm9 () Bool
+    false)
+  (define-fun p8d1t3 () Bool
+    false)
+  (define-fun p7d1t0 () Bool
+    false)
+  (define-fun p2d2t4 () Bool
+    false)
+  (define-fun p0d3t1 () Bool
+    false)
+  (define-fun p9d3t1 () Bool
+    false)
+  (define-fun p0d2t4 () Bool
+    false)
+  (define-fun p4d1t3 () Bool
+    false)
+  (define-fun xp9 () Bool
+    true)
+  (define-fun p11d1t2 () Bool
+    false)
+  (define-fun p4d2t1 () Bool
+    false)
+  (define-fun p8d2t4 () Bool
+    false)
+  (define-fun p5d5t1 () Bool
+    false)
+  (define-fun xm5 () Bool
+    false)
+  (define-fun p3d1t4 () Bool
+    false)
+  (define-fun p9d1t4 () Bool
+    false)
+  (define-fun p2d2t3 () Bool
+    true)
+  (define-fun p9d3t0 () Bool
+    false)
+  (define-fun p10d2t1 () Bool
+    true)
+  (define-fun p4d1t0 () Bool
+    false)
+  (define-fun p6d2t3 () Bool
+    false)
+  (define-fun p7d1t2 () Bool
+    false)
+  (define-fun p3d3t2 () Bool
+    false)
+  (define-fun p0d3t2 () Bool
+    true)
+  (define-fun xp10 () Bool
+    false)
+  (define-fun p2d1t3 () Bool
+    false)
+  (define-fun xm7 () Bool
+    true)
+  (define-fun p5d1t4 () Bool
+    false)
+  (define-fun p7d1t3 () Bool
+    false)
+  (define-fun p8d2t3 () Bool
+    false)
+  (define-fun xp11 () Bool
+    false)
+  (define-fun p6d3t4 () Bool
+    false)
+  (define-fun p8d4t3 () Bool
+    false)
+  (define-fun p0d5t3 () Bool
+    false)
+  (define-fun xp3 () Bool
+    true)
+  (define-fun p8d2t2 () Bool
+    true)
+  (define-fun p8d2t0 () Bool
+    false)
+  (define-fun p9d3t4 () Bool
+    false)
+  (define-fun p6d1t4 () Bool
+    false)
+  (define-fun p4d2t3 () Bool
+    false)
+  (define-fun p0d4t4 () Bool
+    false)
+  (define-fun xm8 () Bool
+    false)
+  (define-fun p11d1t0 () Bool
+    false)
+  (define-fun p0d2t3 () Bool
+    false)
+  (define-fun p5d5t2 () Bool
+    false)
+  (define-fun xp4 () Bool
+    false)
+  (define-fun p10d1t1 () Bool
+    false)
+  (define-fun p8d4t4 () Bool
+    false)
+  (define-fun p1d1t1 () Bool
+    true)
+  (define-fun p9d3t3 () Bool
+    true)
+  (define-fun xm10 () Bool
+    true)
+  (define-fun p3d3t1 () Bool
+    false)
+  (define-fun p0d5t4 () Bool
+    false)
+  (define-fun p5d5t4 () Bool
+    false)
+  (define-fun p10d1t0 () Bool
+    false)
+  (define-fun p3d1t2 () Bool
+    false)
+  (define-fun p5d1t2 () Bool
+    false)
+  (define-fun p10d2t3 () Bool
+    false)
+  (define-fun p6d3t3 () Bool
+    false)
+  (define-fun p9d1t2 () Bool
+    false)
+  (define-fun p8d1t2 () Bool
+    true)
+  (define-fun p6d1t1 () Bool
+    false)
+  (define-fun p10d2t0 () Bool
+    false)
+  (define-fun p8d4t2 () Bool
+    true)
+  (define-fun xm2 () Bool
+    false)
+  (define-fun p7d1t1 () Bool
+    true)
+  (define-fun xp8 () Bool
+    true)
+  (define-fun xp7 () Bool
+    false)
+  (define-fun p3d1t0 () Bool
+    false)
+  (define-fun p5d1t0 () Bool
+    false)
+  (define-fun p4d2t0 () Bool
+    false)
+  (define-fun xm11 () Bool
+    true)
+  (define-fun p2d1t0 () Bool
+    false)
+  (define-fun p11d1t4 () Bool
+    false)
+  (define-fun p9d1t0 () Bool
+    false)
+  (define-fun p9d1t3 () Bool
+    true)
+  (define-fun p10d2t4 () Bool
+    false)
+  (define-fun p10d5t0 () Bool
+    false)
+  (define-fun xp5 () Bool
+    true)
+  (define-fun p2d2t0 () Bool
+    false)
+  (define-fun p0d1t4 () Bool
+    false)
+  (define-fun p0d3t0 () Bool
+    false)
+  (define-fun p10d5t1 () Bool
+    false)
+  (define-fun p2d2t2 () Bool
+    false)
+  (define-fun p0d1t0 () Bool
+    false)
+  (define-fun p0d2t1 () Bool
+    false)
+  (define-fun xp6 () Bool
+    false)
+  (define-fun p0d3t3 () Bool
+    false)
+  (define-fun p8d1t1 () Bool
+    false)
+  (define-fun p4d4t0 () Bool
+    false)
+  (define-fun p9d1t1 () Bool
+    false)
+  (define-fun p11d1t3 () Bool
+    false)
+  (define-fun p6d3t1 () Bool
+    false)
+  (define-fun p9d3t2 () Bool
+    false)
+  (define-fun p10d5t4 () Bool
+    false)
+  (define-fun p0d4t1 () Bool
+    false)
+  (define-fun p0d4t2 () Bool
+    true)
+  (define-fun p0d5t2 () Bool
+    true)
+  (define-fun p10d5t3 () Bool
+    false)
+  (define-fun p8d4t0 () Bool
+    false)
+  (define-fun p5d1t3 () Bool
+    true)
+  (define-fun p10d2t2 () Bool
+    false)
+  (define-fun p8d1t4 () Bool
+    false)
+  (define-fun p3d3t0 () Bool
+    false)
+  (define-fun p6d1t0 () Bool
+    false)
+  (define-fun p6d2t1 () Bool
+    true)
+  (define-fun p0d4t0 () Bool
+    false)
+  (define-fun p8d1t0 () Bool
+    false)
+  (define-fun p10d5t2 () Bool
+    true)
+  (define-fun p3d1t1 () Bool
+    false)
+  (define-fun p1d1t2 () Bool
+    false)
+  (define-fun p6d1t2 () Bool
+    true)
+  (define-fun p0d3t4 () Bool
+    false)
+  (define-fun p6d2t4 () Bool
+    false)
+  (define-fun p4d2t2 () Bool
+    true)
+  (define-fun p0d1t1 () Bool
+    false)
+  (define-fun p4d1t4 () Bool
+    false)
+  (define-fun p11d1t1 () Bool
+    true)
+  (define-fun p6d2t2 () Bool
+    false)
+  (define-fun p4d4t2 () Bool
+    false)
+  (define-fun xm6 () Bool
+    true)
+  (define-fun p6d1t3 () Bool
+    false)
+  (define-fun xp1 () Bool
+    false)
+  (define-fun p0d5t1 () Bool
+    false)
+  (define-fun p8d4t1 () Bool
+    false)
+  (define-fun p2d1t1 () Bool
+    false)
+  (define-fun p6d3t2 () Bool
+    true)
+  (define-fun p10d1t2 () Bool
+    true)
+  (define-fun p5d1t1 () Bool
+    false)
+  (define-fun xm1 () Bool
+    true)
+  (define-fun p10d1t3 () Bool
+    false)
+  (define-fun p2d1t2 () Bool
+    true)
+  (define-fun p1d1t3 () Bool
+    false)
+  (define-fun p4d4t3 () Bool
+    false)
+  (define-fun p0d1t3 () Bool
+    false)
+  (define-fun p4d1t2 () Bool
+    true)
+  (define-fun p3d3t3 () Bool
+    true)
+  (define-fun p4d4t4 () Bool
+    false)
+  (define-fun xp2 () Bool
+    true)
+  (define-fun p2d1t4 () Bool
+    false)
+  (define-fun xm4 () Bool
+    true)
+  (define-fun p1d1t4 () Bool
+    false)
+  (define-fun p3d1t3 () Bool
+    true)
+  (define-fun p0d2t0 () Bool
+    false)
+)
