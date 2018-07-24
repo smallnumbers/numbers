@@ -9,7 +9,7 @@ static int propagate(int n, int k, unsigned char *stack, int a, int h, int size_
 {
 	int i, j, jstart, d;
 
-	if (h + sz[n - a][k] < size_to_beat)
+	if (h + sz[n - a][k] <= size_to_beat)
 		return 0;
 
 	for (d = 1; d <= (a + 1) / (k - 1); d++) {
@@ -63,7 +63,7 @@ static unsigned char *compute_sz_recurse(int n, int k, unsigned char *stack,
 			unsigned char *result = compute_sz_recurse(n, k, next, result_space + n,
 								   a + 1, h + 1, &cur_size);
 
-			if (best_size  < cur_size) {
+			if (best_size < cur_size) {
 				best_size = cur_size;
 				*size = cur_size;
 				memcpy(result_space, result, n);
@@ -102,6 +102,7 @@ static int compute_sz(int n, int k)
 		printf("finished in %ld seconds\n", stop.tv_sec - start.tv_sec);
 	else
 		printf("finished in %.3lf seconds\n", (stop.tv_nsec - start.tv_nsec) / 1000000000.0);
+	fflush(stdout);
 
 	return sz[n][k];
 }
