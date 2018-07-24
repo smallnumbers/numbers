@@ -26,10 +26,10 @@ verify () {
 #verify 4  7 109
 #verify 3 11 114
 #verify 3 12 135
+#verify 4  8 146
+#verify 3 13 160
+#verify 5  5 178
 
-verify 4  8 146
-verify 3 13 160
-verify 5  5 178
 verify 3 14 186
 verify 3 15 186
 verify 5  6 206
