@@ -93,15 +93,21 @@ static int compute_sz(int n, int k)
 
 	clock_gettime(CLOCK_REALTIME, &stop);
 
-	printf("sz(%d,%d)=%d\t", n, k, sz[n][k]);
-	for (i = 0; i < n; i++)
-		printf("%d", result_set[i]);
-	printf("\t\t");
+	printf("%d,%d,%d,", n, k, sz[n][k]);
 
-	if (stop.tv_sec - start.tv_sec)
-		printf("finished in %ld seconds\n", stop.tv_sec - start.tv_sec);
+	if (stop.tv_sec - start.tv_sec > 20)
+		printf("%ld,", stop.tv_sec - start.tv_sec);
 	else
-		printf("finished in %.3lf seconds\n", (stop.tv_nsec - start.tv_nsec) / 1000000000.0);
+		printf("%.3lf,", (stop.tv_sec - start.tv_sec) +
+				 (stop.tv_nsec - start.tv_nsec) / 1000000000.0);
+	
+	printf("`");
+	for (i = 0; i < n; i++) {
+		if (result_set[i])
+			printf("%3d ", i + 1);
+	}
+	printf("`\n");
+	
 	fflush(stdout);
 
 	return sz[n][k];
@@ -126,6 +132,8 @@ int main(int argc, const char **argv)
 	sz = calloc(max_n + 1, sizeof(int *));
 	for (i = 0; i <= max_n; i++)
 		sz[i] = calloc(max_k + 1, sizeof(int));
+
+	printf("n,k,sz(n,k),time,solution\n");
 
 	for (n = min_n; n <= max_n; n++) {
 		for (k = 3; k <= max_k; k++) {
