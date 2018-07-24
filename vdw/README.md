@@ -116,12 +116,39 @@ are not verified by the Small Numbers project.
 |  3 |  4 |  4 |       89      | [LRC05]  **TODO** |
 |  4 |  4 |  4 |      293      | [K12]    **TODO** |
 
+### Four Colors
+
+| k1 | k2 | k3 | k4 | vdw(k1,k2,k3,k4) | Proven By        |
+|----|----|----|----|------------------|------------------|
+|  2 |  2 |  3 |  3 |         17       | [B74]            |
+|  2 |  2 |  3 |  4 |         24       | [B74]            |
+|  2 |  2 |  3 |  5 |         43       | [B74]            |
+|  2 |  2 |  3 |  6 |         48       | [LRC05]          |
+|  2 |  2 |  3 |  7 |         65       | [LRC05]          |
+|  2 |  2 |  3 |  8 |         83       | [A09]            |
+|  2 |  2 |  3 |  9 |         99       | [A09]            |
+|  2 |  2 |  3 | 10 |        119       | [A09]   **TODO** |
+|  2 |  2 |  3 | 11 |        141       | [S19]   **TODO** |
+|  2 |  2 |  4 |  4 |         53       | [B74]   **TODO** |
+|  2 |  2 |  4 |  5 |         75       | [A09]   **TODO** |
+|  2 |  2 |  4 |  6 |         93       | [A09]   **TODO** |
+|  2 |  2 |  4 |  7 |        143       | [K12]   **TODO** |
+|  2 |  3 |  3 |  3 |         40       | [B74]   **TODO** |
+|  2 |  3 |  3 |  4 |         60       | [LRC05] **TODO** |
+|  2 |  3 |  3 |  5 |         86       | [A09]   **TODO** |
+|  3 |  3 |  3 |  3 |         76       | [BO79]  **TODO** |
+
 References
 ----------
 
+[A09] Tanbir Ahmed,
+      "Some new van der Waerden numbers and some van der Waerden-type numbers"
+      _Integers_ **9**:
+      (2009) A6.
+
 [A10] Tanbir Ahmed,
       "Two new van der Waerden numbers w(2;3,17) and w(2;3,18)"
-      _Integers_. **10**:
+      _Integers_ **10**:
       (2010) pp. 369–377.
 
 [AKS14] Tanbir Ahmed, Oliver Kullmann, and Hunter Snevily,
@@ -162,3 +189,7 @@ References
         "Some New Exact van der Waerden Numbers"
         _Integers_ **5** (2): 
         (2005) A10.
+
+[S09] Pascal Schweitzer,
+      _Problems of Unknown Complexity, Graph isomorphism and Ramsey theoretic numbers_ (Ph.D. thesis)
+      U. des Saarlandes (2009).
