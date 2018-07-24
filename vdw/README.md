@@ -86,6 +86,36 @@ are not verified by the Small Numbers project.
 | 5  | 7  | 260        | [A13]   **TODO**|
 | 6  | 6  | 1,132      | [KP08]  **TODO**|
 
+### Three Colors
+
+| k1 | k2 | k3 | vdw(k1,k2,k3) | Proven By         |
+|----|----|----|---------------|-------------------|
+|  2 |  3 |  3 |       14      | [B74]             |
+|  2 |  3 |  4 |       21      | [B74]             |
+|  2 |  3 |  5 |       32      | [B74]             |
+|  2 |  3 |  6 |       40      | [B74]             |
+|  2 |  3 |  7 |       55      | [LRC05]           |
+|  2 |  3 |  8 |       72      | [K06]             |
+|  2 |  3 |  9 |       90      | [A09]             |
+|  2 |  3 | 10 |      108      | [A09]             |
+|  2 |  3 | 11 |      129      | [A09]             |
+|  2 |  3 | 12 |      150      | [A09]    **TODO** |
+|  2 |  3 | 13 |      171      | [A09]    **TODO** |
+|  2 |  3 | 14 |      202      | [K12]    **TODO** |
+|  2 |  4 |  4 |       40      | [B74]             |
+|  2 |  4 |  5 |       71      | [B74]             |
+|  2 |  4 |  6 |       83      | [LRC05]  **TODO** |
+|  2 |  4 |  7 |      119      | [K06]    **TODO** |
+|  2 |  4 |  8 |      157      | [K12]    **TODO** |
+|  2 |  5 |  5 |      180      | [A09]    **TODO** |
+|  2 |  5 |  6 |      246      | [K12]    **TODO** |
+|  3 |  3 |  3 |       27      | [C70]             |
+|  3 |  3 |  4 |       51      | [BO79]            |
+|  3 |  3 |  5 |       80      | [LRC05]           |
+|  3 |  3 |  6 |      107      | [A09]    **TODO** |
+|  3 |  4 |  4 |       89      | [LRC05]  **TODO** |
+|  4 |  4 |  4 |      293      | [K12]    **TODO** |
+
 References
 ----------
 
@@ -104,6 +134,11 @@ References
        _Discrete Math._ **28** (2):
        (1979) pp. 135–146.
 
+[B74] T. C. Brown
+      "Some new van der Waerden numbers (preliminary report)".
+      _Notices of the American Mathematical Society_ **21**
+      (1974) A–432.
+
 [C70] Vašek Chvátal. "Some unknown van der Waerden numbers"
       In Guy, Richard; Hanani, Haim; Sauer, Norbert; _et al._
       _Combinatorial Structures and Their Applications_
@@ -112,6 +147,11 @@ References
 [K06] Michal Kouril,
       _A Backtracking Framework for Beowulf Clusters with an Extension to Multi-Cluster Computation and Sat Benchmark Problem Implementation_
       (Ph.D. thesis). University of Cincinnati (2006).
+
+[K12] Michal Kouril
+      "Computing the van der Waerden number W(3,4)=293"
+      _Integers_ **12**:
+      (2012) A46.
 
 [KP08] Michal Kouril and Jerome L. Paul,
        "The Van der Waerden Number W(2,6) is 1132"
