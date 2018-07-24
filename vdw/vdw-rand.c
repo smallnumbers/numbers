@@ -158,8 +158,9 @@ unsigned char *vdw_hill(int t, int *k, int n, int num_good, int degree)
 	unsigned char *colorings = calloc(n * num_good * (degree + 2), 1);
 	int iterations = 0;
 	int iteration_summary_at = 1000;
-	int i, m, c;
+	int i, j, m, c;
 	int max_p = 0;
+	int last_score = n * n * n;
 
 	for (c = 0; c < t; c++)
 		max_p += k[c];
@@ -167,11 +168,27 @@ unsigned char *vdw_hill(int t, int *k, int n, int num_good, int degree)
 	for (m = 0; m < num_good; m++) {
 		unsigned char *cur_coloring = colorings + m *n;
 
+		randomly_color(t, k, n, max_p, cur_coloring);
 	}	
 
 	while (vdw_iterate(t, k, n, num_good, degree, colorings, max_p)) {
 		if ((++iterations % iteration_summary_at) == 0) {
-			printf("best colorings after %d iterations:\n", iterations);
+			if (last_score == score(t, k, n, colorings, 0)) {
+				printf("score (%d) has not changed after %d iterations, perturbing:\n", last_score, iterations);
+				for (i = 0; i < num_good; i++) {
+					for (j = 0; j < n; j++) {
+						int p = ((unsigned)rand()) % max_p;
+
+						if (!p)
+							colorings[n * i + j] = random_color(t, k, max_p);
+					}
+				}
+
+				last_score = n * n * n;
+			} else {
+				last_score = score(t, k, n, colorings, 0);
+				printf("best colorings after %d iterations:\n", iterations);
+			}
 
 			for (i = 0; i < num_good; i++) {
 				printf("score: %3d ", score(t, k, n, colorings + n * i, 0));
