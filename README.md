@@ -29,7 +29,7 @@ Here are a few such functions:
   is at least C. Only disc(2) and disc(3) are known.
 
 Approach
-========
+--------
 
 We collect results from the mathematical literature to create a list
 of the known values and bounds for these small numbers.
@@ -46,3 +46,9 @@ Another simple approach is to use simple backtrack search with some
 basic constraint solving methods. These can sometimes provide easier
 to understand approaches to these calculations, but also to enumerate
 all extremal solutions.
+
+License
+-------
+
+Small Numbers is available as open-source under the MIT License. See
+[LICENSE.md](LICENSE.md) for more details.
