@@ -11,6 +11,7 @@ from z3 import *;
 
 C = int(sys.argv[1]);
 N = int(sys.argv[2]);
+s = sys.argv[3];
 
 variables = "";
 constraints = "";
@@ -45,19 +46,16 @@ for d in range(1, N / C + 1):
 		i += d;
 
 solve_file = open("data/disc-C%d-n%d.z3" % (C,N), "w");
-solve_file.write(variables + constraints + "(check-sat)\n(get-model)\n");
+
+if s == "unsat":
+	solve_file.write("(set-option :produce-proofs true)\n");
+solve_file.write(variables + constraints);
+
+if s == "unsat":
+	solve_file.write("(check-sat)\n(get-proof)\n");
+else:
+	solve_file.write("(check-sat)\n(get-model)\n");
+
 solve_file.close();
 
-z3 = Solver();
-z3.from_string(variables + constraints);
 
-print "discrepancy C=%d, n=%d:\n" % (C,N);
-check = z3.check();
-print "check: ", check;
-
-if check == sat:
-	print z3.model();
-else:
-	solve_file = open("data/disc-C%d-n%d.z3" % (C,N), "w");
-	solve_file.write("(set-option :produce-proofs true)\n" + variables + constraints + "(check-sat)\n(get-proof)\n");
-	solve_file.close();
