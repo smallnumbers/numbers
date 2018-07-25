@@ -97,7 +97,7 @@ sat
   (define-fun p8d2t3 () Bool
     false)
   (define-fun xp11 () Bool
-    false)
+    true)
   (define-fun p6d3t4 () Bool
     false)
   (define-fun p8d4t3 () Bool
@@ -179,7 +179,7 @@ sat
   (define-fun p4d2t0 () Bool
     false)
   (define-fun xm11 () Bool
-    true)
+    false)
   (define-fun p2d1t0 () Bool
     false)
   (define-fun p11d1t4 () Bool
@@ -219,7 +219,7 @@ sat
   (define-fun p9d1t1 () Bool
     false)
   (define-fun p11d1t3 () Bool
-    false)
+    true)
   (define-fun p6d3t1 () Bool
     false)
   (define-fun p9d3t2 () Bool
@@ -271,7 +271,7 @@ sat
   (define-fun p4d1t4 () Bool
     false)
   (define-fun p11d1t1 () Bool
-    true)
+    false)
   (define-fun p6d2t2 () Bool
     false)
   (define-fun p4d4t2 () Bool

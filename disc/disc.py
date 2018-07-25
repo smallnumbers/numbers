@@ -9,7 +9,7 @@ if len(sys.argv) < 2:
 
 from z3 import *;
 
-C = int(sys.argv[1]);
+C = int(sys.argv[1]) + 1;
 N = int(sys.argv[2]);
 s = sys.argv[3];
 
@@ -45,7 +45,7 @@ for d in range(1, N / C + 1):
 			constraints += "(assert (not p%dd%dt%d))\n" % (i, d, 2 * C);
 		i += d;
 
-solve_file = open("data/disc-C%d-n%d.z3" % (C,N), "w");
+solve_file = open("data/disc-C%d-n%d.z3" % (C-1,N), "w");
 
 if s == "unsat":
 	solve_file.write("(set-option :produce-proofs true)\n");
