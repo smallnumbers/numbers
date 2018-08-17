@@ -113,7 +113,7 @@ are not verified by the Small Numbers project.
 |  3 |  3 |  4 |       51      | [BO79]            |
 |  3 |  3 |  5 |       80      | [LRC05]           |
 |  3 |  3 |  6 |      107      | [A09]    **TODO** |
-|  3 |  4 |  4 |       89      | [LRC05]  **TODO** |
+|  3 |  4 |  4 |       89      | [LRC05]           |
 |  4 |  4 |  4 |      293      | [K12]    **TODO** |
 
 ### Four Colors
