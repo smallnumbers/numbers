@@ -4,14 +4,16 @@
 #include <time.h>
 #include <math.h>
 
-int *primes;
+typedef unsigned long uint64_t;
 
-int bsearch0(int p, int max)
+uint64_t *primes;
+
+uint64_t bsearch0(uint64_t p, uint64_t max)
 {
-	int min = 0;
+	uint64_t min = 0;
 
 	while (min < max) {
-		int mid = min + (max - min) / 2;
+		uint64_t mid = min + (max - min) / 2;
 
 		if (primes[mid] == p)
 			return mid;
@@ -25,19 +27,19 @@ int bsearch0(int p, int max)
 	return -1;
 }
 
-void sieve(int max_p)
+void sieve(uint64_t max_p)
 {
-	int N = (int)(max_p * sqrt((double)max_p));
+	uint64_t N = (uint64_t)(max_p * sqrt((double)max_p));
 
-	int p = 2;
-	int num_p = 0;
+	uint64_t p = 2;
+	uint64_t num_p = 0;
 	
-	int *nums = calloc(N, sizeof(int));
+	uint64_t *nums = calloc(N, sizeof(uint64_t));
 	nums[0] = 1;
 	nums[1] = 1;
 
 	for (p = 2; p < N; p++) {
-		int m = 2*p;
+		uint64_t m = 2*p;
 		if (nums[p])
 			continue;
 
@@ -51,34 +53,44 @@ void sieve(int max_p)
 			m += p;
 		}
 	}
+
 	free(nums);
 }
 
 static int intcmp(const void *a, const void *b)
 {
-	return (*(const int *)a) - (*(const int *)b);
+	const uint64_t *_a = (const uint64_t *)a;
+	const uint64_t *_b = (const uint64_t *)b;
+
+	if (*_a < *_b)
+		return -1;
+	if (*_a > *_b)
+		return 1;
+	return 0;
 }
 
 int main(int argc, const char **argv)
 {
-	int i, j, k, *t, max_p;
-	int best_k_so_far = 2;
+	int i, j, k;
+	uint64_t *t, max_p;
+	uint64_t best_k_so_far = 2;
 
-	max_p = atoi(argv[1]);
+	max_p = 1L << atoi(argv[1]);
+	printf("Computing primes up to %10ld\n", max_p);
 
-	primes = calloc(max_p, sizeof(int));
+	primes = calloc(max_p, sizeof(uint64_t));
 	sieve(max_p);
 
 	for (i = 0; i < max_p; i++) {
-		int best_k = 1;
-		int best_d = 0;
-		int d;
+		uint64_t best_k = 1;
+		uint64_t best_d = 0;
+		uint64_t d;
 
 		for (d = 2; d < primes[i] / (best_k_so_far - 1); d += 2) {
-			int p = primes[i] - d;
+			uint64_t p = primes[i] - d;
 			k = 1;
 
-			t = bsearch(&p, primes, i, sizeof(int), intcmp);
+			t = bsearch(&p, primes, i, sizeof(uint64_t), intcmp);
 			while (t) {
 				k++;
 				if (k > best_k) {
@@ -87,7 +99,7 @@ int main(int argc, const char **argv)
 				}
 
 				p -= d;
-				t = bsearch(&p, primes, i, sizeof(int), intcmp);
+				t = bsearch(&p, primes, i, sizeof(uint64_t), intcmp);
 			}
 		}
 
@@ -96,9 +108,9 @@ int main(int argc, const char **argv)
 		
 		best_k_so_far = best_k;
 
-		printf("%5d: ", primes[i]);
+		printf("%10ld: ", primes[i]);
 		for (j = best_k - 1; j >= 0; j--)
-			printf("%5d ", primes[i] - j * best_d);
+			printf("%10ld ", primes[i] - j * best_d);
 		printf("\n");
 	}
 
