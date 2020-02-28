@@ -4,21 +4,117 @@
 #include <time.h>
 #include "translation.h"
 
+int n, t, num_edges;
 int graphs_nr;
 int *graph_n;
+int *graph_edges;
+int *graph_sets;
 unsigned char **graphs;
-unsigned char *edge_colors;
+char *edge_colors;
 unsigned int ***edge_to_sets;
 unsigned int **sets_per_edge_per_color;
 
 /* number of edges in a given set that match that color */
 unsigned int **edges_per_set_per_color;
 
+int *edge_stack;
+int edge_stack_n;
+
+void print_coloring()
+{
+	int i;
+	for (i = 0; i < num_edges; i++)
+	{
+		printf("%c", '0' + edge_colors[i]);
+	}
+	printf("\n");
+}
+
+int pop()
+{
+	int i;
+	int edge = edge_stack[--edge_stack_n];
+	int color = edge_colors[edge];
+
+	edge_colors[edge] = -1;
+
+	for (i = 0; i < sets_per_edge_per_color[edge][color]; i++)
+	{
+		unsigned int set = edge_to_sets[edge][color][i];
+
+		edges_per_set_per_color[color][set]--;
+	}
+}
+
+int push(int edge, int color)
+{
+	int i;
+	int result = 1;
+
+	if (edge_colors[edge] == color)
+	{
+		return -1;
+	}
+
+	if (edge_colors[edge] != -1)
+	{
+		return 0;
+	}
+
+	edge_colors[edge] = color;
+	edge_stack[edge_stack_n++] = edge;
+
+	for (i = 0; i < sets_per_edge_per_color[edge][color]; i++)
+	{
+		unsigned int set = edge_to_sets[edge][color][i];
+
+		edges_per_set_per_color[color][set]++;
+
+		if (edges_per_set_per_color[color][set] >= graph_edges[color])
+		{
+			result = 0;		
+		}
+	}
+
+	if (!result)
+	{
+		pop();
+	}
+
+	return result;
+}
+
+int recursive_search(int edge)
+{
+	int color;
+
+	if (edge >= num_edges)
+	{
+		print_coloring();
+		return 1;
+	}
+
+	for (color = 0; color < t; color++)
+	{
+		if (push(edge, color) == 1)
+		{
+			int result = recursive_search(edge + 1);
+			pop();
+
+			if (result)
+			{
+				return result;
+			}
+		}
+	}
+
+	return 0;
+}
+
 int main(int argc, const char **argv)
 {
-	int n, num_edges;
 	int maxK;
-	int t, i, j, m;
+	int i, j, m;
 	const char *input;
 	int *edge_pair = (int *)malloc(2 * sizeof(int));
 
@@ -30,11 +126,21 @@ int main(int argc, const char **argv)
 
 	t = argc - 3;
 
-	initBinomialTable(3 * n, maxK + 1);
+	initBinomialTable(2 * n, maxK + 1);
 	num_edges = nChooseK(n, 2);
+
+	edge_colors = (char *)malloc(num_edges);
+	edge_stack = (int *)malloc(num_edges * sizeof(int));
+	edge_stack_n = 0;
+
+	for (i = 0; i < num_edges; i++)
+	{
+		edge_colors[i] = -1;
+	}
 
 	graphs = (unsigned char **)malloc(t * sizeof(*graphs));
 	graph_n = (int*)malloc(t * sizeof(*graph_n));
+	graph_edges = (int*)malloc(t * sizeof(*graph_edges));
 	for (i = 0; i < t; i++)
 	{
 		int k, kchoose2;
@@ -55,6 +161,7 @@ int main(int argc, const char **argv)
 		}
 		
 		graph_n[i] = k;
+		graph_edges[i] = 0;
 		graphs[i] = (unsigned char *)malloc(kchoose2);
 
 		for (j = 0; j < kchoose2; j++)
@@ -66,6 +173,11 @@ int main(int argc, const char **argv)
 			}
 
 			graphs[i][j] = input[j] - '0';
+
+			if (graphs[i][j])
+			{
+				graph_edges[i]++;
+			}
 		}
 	}
 
@@ -84,7 +196,7 @@ int main(int argc, const char **argv)
 		int num_gs = nChooseK(n, graph_n[i]);
 		int *gset = (int *)malloc(graph_n[i] * sizeof(*gset));
 
-		edges_per_set_per_color[i] = (unsigned int *)calloc(graph_n[i], sizeof(unsigned int));
+		edges_per_set_per_color[i] = (unsigned int *)calloc(num_gs, sizeof(unsigned int));
 
 		for (j = 0; j < num_gs; j++)
 		{
@@ -92,7 +204,7 @@ int main(int argc, const char **argv)
 
 			for (m = 0; m < g_choose_2; m++)
 			{
-				int u, v;
+				int e;
 				if (!graphs[i][m])
 				{
 					continue;
@@ -100,11 +212,12 @@ int main(int argc, const char **argv)
 
 				indexToSet(2, m, edge_pair);
 
-				u = gset[edge_pair[0]];
-				v = gset[edge_pair[1]];
+				edge_pair[0] = gset[edge_pair[0]];
+				edge_pair[1] = gset[edge_pair[1]];
 
-				sets_per_edge_per_color[u][i]++;
-				sets_per_edge_per_color[v][i]++;
+				e = indexOfSet(2, edge_pair);
+
+				sets_per_edge_per_color[e][i]++;
 			}
 		}
 
@@ -136,7 +249,7 @@ int main(int argc, const char **argv)
 
 			for (m = 0; m < g_choose_2; m++)
 			{
-				int u, v;
+				int e;
 				if (!graphs[i][m])
 				{
 					continue;
@@ -144,18 +257,22 @@ int main(int argc, const char **argv)
 
 				indexToSet(2, m, edge_pair);
 
-				u = gset[edge_pair[0]];
-				v = gset[edge_pair[1]];
+				edge_pair[0] = gset[edge_pair[0]];
+				edge_pair[1] = gset[edge_pair[1]];
 
-				edge_to_sets[u][i][sets_per_edge_per_color[u][i]] = j;
-				edge_to_sets[v][i][sets_per_edge_per_color[v][i]] = j;
+				e = indexOfSet(2, edge_pair);
 
-				sets_per_edge_per_color[u][i]++;
-				sets_per_edge_per_color[v][i]++;
+				edge_to_sets[e][i][sets_per_edge_per_color[e][i]] = j;
+				sets_per_edge_per_color[e][i]++;
 			}
 		}
 
 		free(gset);
+	}
+
+	if (!recursive_search(0))
+	{
+		printf("No result\n");
 	}
 
 	for (i = 0; i < t; i++)
