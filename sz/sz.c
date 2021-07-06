@@ -9,7 +9,8 @@ static int propagate(int n, int k, unsigned char *stack, int a, int h, int size_
 {
 	int i, j, jstart, d;
 
-	if (h + sz[n - a][k] < size_to_beat)
+	if (sz[n - a][k] > 0 &&
+	    h + 1 + sz[n - a][k] < size_to_beat)
 		return 0;
 
 	for (d = 1; d <= (a + 1) / (k - 1); d++) {
@@ -17,8 +18,8 @@ static int propagate(int n, int k, unsigned char *stack, int a, int h, int size_
 
 		for (j = 1; all_in && j < k; j++)
 			all_in = stack[a - j * d];
-		
-		if (all_in)
+
+		if (all_in && j == k)
 			return 0;
 	}
 
@@ -28,52 +29,48 @@ static int propagate(int n, int k, unsigned char *stack, int a, int h, int size_
 static unsigned char *compute_sz_recurse(int n, int k, unsigned char *stack,
 					 unsigned char *result_space, int a, int h, int *size)
 {
-	unsigned char *next, *max_result;
 	int best_size = h;
 
 	if (a >= n) {
-		memcpy(result_space, stack, n);
+		if (h > *size) {
+			memcpy(result_space, stack, n);
+			*size = h;
+		}
 
-		*size = h;
 		return result_space;
 	}
-	
+
 	if (h >= n) {
 		printf("BUG: recursion height is too large!\n");
 		exit(1);
 	}
 
-	next = stack + n;
-	
 	while (a < n) {
-		memcpy(next, stack, n);
-		next[a] = 1;
+		memset(stack + a, 0, n - a);
+		stack[a] = 1;
 
-		if (propagate(n, k, next, a, h + 1, *size)) {
+		if (propagate(n, k, stack, a, h, *size)) {
 			int cur_size = *size;
-			
-			if (best_size < h + 1) {
-				best_size = h + 1;
-				memcpy(result_space, next, n);
+
+			if (best_size > cur_size) {
+				cur_size = best_size;
+				*size = best_size;
+				memcpy(result_space, stack, n);
 			}
 
-			if (cur_size < best_size)
-				cur_size = best_size;
-
-			unsigned char *result = compute_sz_recurse(n, k, next, result_space + n,
+			unsigned char *result = compute_sz_recurse(n, k, stack, result_space,
 								   a + 1, h + 1, &cur_size);
 
-			if (best_size  < cur_size) {
+			if (best_size < cur_size) {
 				best_size = cur_size;
 				*size = cur_size;
-				memcpy(result_space, result, n);
 			}
 		}
-		
+		stack[a] = 0;
+
 		a++;
 	}
 
-	*size = best_size;
 	return result_space;
 }
 
@@ -84,11 +81,12 @@ static int compute_sz(int n, int k)
 	unsigned char *stack, *result_space, *result_set;
 	int i;
 
-	stack = calloc(n * (n + 1), 1);
-	result_space = calloc(n * (n + 1), 1);
+	stack = calloc(n, 1);
+	result_space = calloc(n, 1);
 
 	clock_gettime(CLOCK_REALTIME, &start);
 
+	sz[n][k] = k - 1;
 	result_set = compute_sz_recurse(n, k, stack, result_space, 0, 0, &sz[n][k]);
 
 	clock_gettime(CLOCK_REALTIME, &stop);
@@ -102,6 +100,8 @@ static int compute_sz(int n, int k)
 		printf("finished in %ld seconds\n", stop.tv_sec - start.tv_sec);
 	else
 		printf("finished in %.3lf seconds\n", (stop.tv_nsec - start.tv_nsec) / 1000000000.0);
+
+	fflush(stdout);
 
 	return sz[n][k];
 }
